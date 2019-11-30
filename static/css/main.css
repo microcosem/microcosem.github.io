@@ -57,6 +57,7 @@ body {
 #Masthead img {
     width: 25%;
     vertical-align: bottom;
+    transition: width 3s;
 }
 #Masthead li {
     display: inline;
@@ -70,7 +71,7 @@ body {
 #Masthead,
 #MainContent {
     margin: 0 auto;
-    width: 60em;
+    max-width: 60em;
 }
 
 .language-switcher,
@@ -83,5 +84,11 @@ body {
  *
  * Put small-screen styles here.
  */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 60em) {
+    #MainContent {
+        padding: 0 1em;
+    }
+    #Masthead img {
+        width: 50%;
+    }
 }

@@ -94,6 +94,8 @@ exclude:
     - static/flag-icon-css/*.sh
     - static/flag-icon-css/*.yaml
     - static/flag-icon-css/assets
+include:
+    - .well-known
 
 # Load whitelisted plugins.
 # See https://help.github.com/en/articles/configuring-jekyll-plugins
