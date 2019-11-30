@@ -12,6 +12,20 @@
  * Put @font-face declarations here.
  */
 
+@font-face {
+    font-family: "Day Roman";
+    src: url("../fonts/DAYROM__.ttf") format("truetype");
+}
+
+a:link,
+a:visited {
+    color: var(--main-color);
+    text-decoration: none;
+}
+a:link:hover {
+    text-decoration: underline;
+}
+
 /**
  * @group Reset.
  */
@@ -27,8 +41,41 @@ figure {
 }
 
 body {
-    background: #fff;
+    background: #fff3e0;
     color: var(--main-color);
+    font: 1em "Day Roman", Arial;
+}
+
+#Masthead {
+    border-bottom: 1px solid;
+    padding: 0 0 1em 0;
+    text-align: center;
+}
+#Masthead h1 {
+    margin: 3em 0 0 0;
+}
+#Masthead img {
+    width: 25%;
+    vertical-align: bottom;
+}
+#Masthead li {
+    display: inline;
+    padding: 0 1em;
+    font-size: 1.25em;
+}
+#MainNavigation {
+    border-top: 1px solid;
+    padding-top: 1em;
+}
+#Masthead,
+#MainContent {
+    margin: 0 auto;
+    width: 60em;
+}
+
+.language-switcher,
+#MainFooter {
+    display: none;
 }
 
 /**

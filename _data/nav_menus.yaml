@@ -29,8 +29,8 @@ main:
   en_US:
 
     # List of links for the `en_US` language.
-    - url: /
-      text: Home
+#    - url: /
+#      text: Home
     - url: /about/
       text: About
       title_text: Learn more about us!

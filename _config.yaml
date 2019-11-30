@@ -10,24 +10,23 @@
 # Set a title and description in other languages using the `site_title`
 # and `site_description` keys in the appropriate `_data/strings/` data
 # file for the desired language.
-title: Example Site
+title: MicrocosEm
 description: >-
     Site description.
 timezone: America/New_York # Use the TZ database: https://en.wikipedia.org/wiki/TZID
-type: Thing                # Use a sensible value from Schema.org.
+type: WebSite              # Use a sensible value from Schema.org.
 
 # Jekyll SEO Tag metadata.
 # See https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
-author: exampleauthor
+author: MicrocosEm
 lang: &lang >- # Default language, YAML anchor is used elsewhere.
     en_US
-logo: /static/images/main-logo.png
-facebook:
-    publisher: FacebookPageID
+logo: /static/images/avatar.microcosem.png
+#facebook:
+#    publisher: FacebookPageID
 social:
     links:
-        - https://www.facebook.com/FacebookPageID
-        - https://www.instagram.com/InstagramHandle
+        - https://github.com/microcosem
 
 # Blog settings.
 paginate: 5    # How many posts per HTML page.
@@ -72,7 +71,7 @@ defaults:
 # iCalendar settings.
 iCalendar:
     defaults:
-        location: 123 Some Place
+        location: New York, NY
         status: CONFIRMED
         image: event-placeholder-image.jpg
 
