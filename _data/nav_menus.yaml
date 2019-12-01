@@ -31,13 +31,15 @@ main:
     # List of links for the `en_US` language.
 #    - url: /
 #      text: Home
-    - url: /about/
-      text: About
-      title_text: Learn more about us!
-    - url: /contact/
-      text: Contact
+#    - url: /about/
+#      text: About
+#      title_text: Learn more about us!
     - url: /blog/
       text: Blog
+    - url: /contact/
+      text: Contact
+    - url: /projects/
+      text: Projects
 
   # Spanish language.
   es:
