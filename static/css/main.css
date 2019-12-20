@@ -41,6 +41,7 @@ figure {
 }
 
 body {
+    padding-bottom: 3em;
     background: #fff3e0;
     color: var(--main-color);
     font: 1em "Day Roman", Arial;
@@ -75,6 +76,15 @@ body {
 #MainContent {
     margin: 0 auto;
     max-width: 60em;
+}
+.entry-content ul {
+    list-style-type: disc;
+}
+.entry-content ol {
+    list-style-type: decimal;
+}
+.entry-content ul ul {
+    padding-left: 1em;
 }
 
 .language-switcher,

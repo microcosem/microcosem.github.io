@@ -39,17 +39,17 @@ Caddy calls its configuration files `Caddyfiles`. In my case, I wanted to write 
 
 Caddy's [requirements for automatic HTTPS](https://caddyserver.com/v1/docs/automatic-https) are pretty simple:
 
-1. The hostname:
-  1. is not empty
-  1. is not `localhost`
-  1. is not an IP address
-  1. has no more than 1 wildcard (*)
-  1. wildcard must be left-most label
-1. The port is not explicitly 80
-1. The scheme is not explicitly http
-1. TLS is not turned off in site's definition
-1. Certificates and keys are not provided by you
-1. Caddy is able to bind to ports 80 and 443 (unless you use the DNS challenge)
+* The hostname:
+  * is not empty
+  * is not `localhost`
+  * is not an IP address
+  * has no more than 1 wildcard (*)
+  * wildcard must be left-most label
+* The port is not explicitly 80
+* The scheme is not explicitly http
+* TLS is not turned off in site's definition
+* Certificates and keys are not provided by you
+* Caddy is able to bind to ports 80 and 443 (unless you use the DNS challenge)
 
 So long as all of the above criteria are met, Caddy _should_ be able to automatically issue HTTPS certificates. These are all basically what you might expect to be true for the issuing of a TLS certificate.
 
@@ -68,13 +68,13 @@ mydomain.site {
 
 A couple of things are somewhat interesting about this Caddyfile. For starters, you ought to notice that the domain name for the website, `mydomain.site`, is _not_ prepended with the `http` scheme. As we were told by Caddy, the scheme for our domain name must _not_ be explicitly `http` if we want to get automatic TLS. So, check.
 
-Perhaps the more interesting thing, though, and the detail possibly more relevant to our specific situation, is the domain to which we are proxying. `my-application-container-hostname` is actually going to be the hostname from within the VPC, which the container is automatically assigned based on the labels your Kubernetes manifest. Here, we explicitly define that the port for the service _to which_ we will be _proxying_ is `80`. Meanwhile, we've of course left off the port for our main host at the top.
+Perhaps the more interesting thing, though, and the detail possibly more relevant to our specific situation, is the domain to which we are proxying. `myapp-web` is actually going to be the hostname from within the VPC, which the container is automatically assigned based on the labels of your Kubernetes manifest. Here, we explicitly define that the port for the service _to which_ we will be _proxying_ is `80`. Meanwhile, we've of course left off the port for our main host at the top.
 
 Following our `proxy` line, we've got a `transparent` preset, which is actually just shorthand for [the more familiar proxy pass headers](https://caddyserver.com/v1/docs/proxy), as well as a `websocket` preset, which means we're telling Caddy to proxy forward WebSocket connections from our proxy.
 
 Then we have some pretty clear lines telling us what's going to happen to our error and access logs (they'll be sent to standard out).
 
-And that's really all there is to it! I think that's the magic of Caddy: it's simplicity. The double-edged sword factor comes in only with the fact that Caddy is magicking away a lot of things, and you should probably know what those things are actually collapsing to (eg. the `transparent` preset). But if you're already comfortable with Web servers, then this is really a nice way of creating a simple, straightforward, and lightweight server.
+And that's really all there is to it! I think that's the magic of Caddy: its simplicity. The double-edged sword factor comes in only with the fact that Caddy is magicking away a lot of things, and you should probably know what those things are actually collapsing to (eg. the `transparent` preset). But if you're already comfortable with Web servers, then this is really a nice way of creating a simple, straightforward, and lightweight server.
 
 In just a moment, we'll look at passing in our options for using the Let's Encrypt staging environment and running our process. (If you're wondering about Caddy's ability to use DNS challenges rather than HTTP challenges, you can read more about that [here](https://github.com/caddyserver/dnsproviders).)
 
@@ -82,7 +82,7 @@ Okay, so now that we've got what we presume to be a working Caddyfile, the next 
 
 My Dockerfile for the Caddy container (and image) looked like this:
 
-```
+```docker
 FROM abiosoft/caddy
 
 COPY Caddyfile /etc/Caddyfile
@@ -95,14 +95,15 @@ Again, lovely in its simplicity. Here, we base our container image on the origin
 
 At last, we pass in the options to the process (Caddy) to configure it. The options we pass in here are:
 
-`--conf` - Letting the Caddy process which configuration file we want it to use.
-`/etc/Caddyfile` - The path to the Caddyfile we want used.
-`-ca` - This is our option to Caddy where we'll define what CA (Certificate Authority) we want our server to use. This is absolutely necessary if we want to explicitly set the location for a testing CA, which, we do. 
-`https://acme-staging-v02.api.letsencrypt.org/directory` - Finally, the URL to the Let's Encrypt staging envrionment.
+* `--conf` - Letting the Caddy process know which configuration file we want it to use.
+* `/etc/Caddyfile` - The path to the Caddyfile we want used.
+* `-ca` - This is our option to Caddy where we'll define what CA (Certificate Authority) we want our server to use. This is absolutely necessary if we want to explicitly set the location for a testing CA, which, we do. 
+* `https://acme-staging-v02.api.letsencrypt.org/directory` - Finally, the URL to the Let's Encrypt staging envrionment.
 
 As Caddy's docs say:
 
-"To test or experiment with your Caddy configuration, make sure you use the -ca flag to change the ACME endpoint to a staging or development URL, otherwise you are likely to hit rate limits which can block your access to HTTPS for up to a week. This is especially common when using process managers or containers. Caddy's default CA is Let's Encrypt, which has a staging endpoint that is not subject to the same rate limits."
+{:cite="https://caddyserver.com/v1/docs/automatic-https"}
+> To test or experiment with your Caddy configuration, make sure you use the -ca flag to change the ACME endpoint to a staging or development URL, otherwise you are likely to hit rate limits which can block your access to HTTPS for up to a week. This is especially common when using process managers or containers. Caddy's default CA is Let's Encrypt, which has a staging endpoint that is not subject to the same rate limits.
 
 So we'll take them up on that advice.
 
@@ -116,7 +117,7 @@ Once we've got all these pieces in play, it's time to move on to our clusters ho
 
 ## GCP
 
-If you've never pushed a Docker image to GCR (that's Google Container Repository), it's extremely easy to do so. You will have to first make sure you're logged in via `gcloud`; you can read more about that [here](https://cloud.google.com/sdk/gcloud/reference/auth/login).
+If you've never pushed a Docker image to GCR (that's Google Container Registry), it's extremely easy to do so. You will have to first make sure you're logged in via `gcloud`; you can read more about that [here](https://cloud.google.com/sdk/gcloud/reference/auth/login).
 
 Once that's done, you'll want to grab the location of your image either from the Google Cloud Web console or from `gcloud` on the command line using `gcloud container images list`. If you don't yet have a repository, you'll want to choose one from the [list of available locations](https://cloud.google.com/container-registry/docs/overview), as well as the ID of your project, which are also visible by going to the Google Web console at the top of the page. Alternatively, you can always choose to host your images elsewhere; an AWS or other type of repository will work just as well, so long as you can get a public reference to its location.
 
@@ -138,13 +139,13 @@ First and foremost, we have to do what should be relatively obvious: we have to 
 
 My manifest looks like so:
 
-```
+```yaml
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: 'myapp-caddy-deployment'
-  namespace: default
+  namespace: myapp
   labels:
     application: myapp-caddy-deployment
     branch: testing
@@ -178,7 +179,7 @@ As you can see, I'm setting my deployment container to be configured in the `tes
 
 But, and this is key: in order for our Caddy service to be reachable, we need to also deploy a service for it. Here's what my Caddy service looked like:
 
-```
+```yaml
 ---
 apiVersion: v1
 kind: Service
@@ -223,7 +224,7 @@ Recently, on this exact task, I led myself astray without even realizing that I 
 
 Somehow momentarily forgetting the fact that I was on Kubernetes, I made the mistake of thinking, "okay, so I've got a load balancer, and I want it to proxy to my Web application container." What this thinking produced was the following mistake in my manifest for the Caddy container:
 
-```
+```yaml
 spec:
   replicas: 1
   template:
@@ -231,19 +232,20 @@ spec:
       labels:
         application: 'myapp-web'
         branch: latest
- spec:
+[...]
+    spec:
       containers:
         - name: 'myapp-web'
 ```
 
 The particularly astute among you can probably see where I went wrong, already. To make matters even worse, when deploying the Service for my Caddy container, I made the following mistake, too:
 
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: spacefinder-caddy-service
-  namespace: default
+  name: myapp-caddy-service
+  namespace: myapp
   labels:
     application: myapp-web
     type: service
