@@ -18,7 +18,7 @@ But what has been strikingly apparent to me lately is how misunderstood DevOps, 
 
 I've encountered a few places now where "DevOps" just seems to be a buzzwordy replacement for a developer. Maybe sometimes a developer who knows something about Docker, or networking, or Linux.
 
-In other places, the concept is driven by the idea of automating infrastructure, which is closer; but then, the infrastructure is only accounted for on the Ops side (which is really, technically, more like SysOps or Site Reliaibility Engineering). Don't get me wrong: being that my origins are strongly system administrative, I love SysOps/SRE work. But, after having been exposed enough to the differences between that and DevOps, they're truly not the same thing.
+In other places, the concept is driven by the idea of automating infrastructure, which is closer; but then, the infrastructure is only accounted for on the Ops side (which is really, technically, more like SysOps or Site Reliability Engineering). Don't get me wrong: being that my origins are strongly system administrative, I love SysOps/SRE work. But, after having been exposed enough to the differences between that and DevOps, they're truly not the same thing.
 
 So, just what is DevOps, anyway? 
 
