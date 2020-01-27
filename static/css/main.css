@@ -93,6 +93,16 @@ body {
 }
 
 /**
+ * @group Blog posts.
+ */
+.h-entry {
+    border-bottom: 1px dotted;
+}
+.h-entry header {
+    padding-top: 1em;
+}
+
+/**
  * @group Mobile styles.
  *
  * Put small-screen styles here.
